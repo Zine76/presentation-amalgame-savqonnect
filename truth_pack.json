@@ -1,0 +1,633 @@
+{
+  "meta": {
+    "project_name": "SAVQonnect",
+    "full_name": "SAVQonnect - Plateforme de Monitoring Audiovisuel",
+    "version_tag": "6.1-BETA",
+    "repo_url": "https://github.com/Zine76/savqonnect-core",
+    "organization": "UQAM - Université du Québec à Montréal",
+    "department": "Service de l'audiovisuel",
+    "generated_at": "2026-02-02T13:45:00Z",
+    "generator": "OpenSpec create-web-intro-v1 - Curated from codebase evidence"
+  },
+  "elevator_pitch": {
+    "sentence": "SAVQonnect est une plateforme de monitoring et de contrôle audiovisuel en temps réel qui unifie la surveillance de 2000+ équipements AV à travers le campus de l'UQAM.",
+    "bullets": [
+      "Monitoring temps réel de projecteurs, microphones, systèmes audio et réseaux Dante",
+      "Contrôle à distance via protocoles natifs (PJLink, SSC, QRC)",
+      "Intégration transparente avec les systèmes existants (Podio, LibCal, SRS)"
+    ]
+  },
+  "problem_space": {
+    "pain_points": [
+      {
+        "id": "pain.fragmented",
+        "title": "Outils fragmentés",
+        "description": "Chaque type d'équipement a son propre outil de monitoring, créant des silos d'information."
+      },
+      {
+        "id": "pain.reactive",
+        "title": "Maintenance réactive",
+        "description": "Les problèmes sont découverts par les utilisateurs en salle, pas par les techniciens."
+      },
+      {
+        "id": "pain.manual",
+        "title": "Interventions manuelles",
+        "description": "Chaque diagnostic nécessite un déplacement physique, même pour des vérifications simples."
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "id": "pillar.observability",
+      "title": "Observabilité",
+      "icon": "eye",
+      "summary": "Vue unifiée de tous les équipements AV avec statuts en temps réel et métriques Prometheus."
+    },
+    {
+      "id": "pillar.intelligence",
+      "title": "Intelligence",
+      "icon": "brain",
+      "summary": "Diagnostics automatisés, corrélation d'événements et aide à la décision."
+    },
+    {
+      "id": "pillar.action",
+      "title": "Action",
+      "icon": "lightning",
+      "summary": "Contrôle à distance des équipements et création automatisée de tickets de maintenance."
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "cap.monitoring.realtime",
+      "title": "Monitoring temps réel",
+      "pillar": "pillar.observability",
+      "summary": "Surveillance continue de tous les équipements avec mise à jour via SSE (Server-Sent Events).",
+      "status": "implemented",
+      "evidence": [
+        {"type": "frontend", "path": "src/views/DashboardView.vue", "anchor": "Device grid with real-time status"},
+        {"type": "store", "path": "src/stores/devicesStore.js", "anchor": "SSE updates, device state management"},
+        {"type": "composable", "path": "src/composables/useDeviceEvents.js", "anchor": "SSE event handling"},
+        {"type": "backend", "path": "internal/monitoring/metrics.go", "anchor": "RecordDeviceCheck, RecordDeviceStatus"}
+      ]
+    },
+    {
+      "id": "cap.monitoring.prometheus",
+      "title": "Métriques Prometheus",
+      "pillar": "pillar.observability",
+      "summary": "Collecte et exposition de métriques pour Prometheus avec dashboards Grafana.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/monitoring/metrics.go", "anchor": "MetricsManager, RecordHTTPRequest"},
+        {"type": "route", "path": "main.go:3491", "anchor": "GET /metrics endpoint"},
+        {"type": "config", "path": "config.env.example:264", "anchor": "INFRA_PROMETHEUS_URL"},
+        {"type": "dashboard", "path": "grafana/dashboards/av_equipment.json", "anchor": "Grafana dashboard"}
+      ]
+    },
+    {
+      "id": "cap.room.cockpit",
+      "title": "Cockpit de salle",
+      "pillar": "pillar.observability",
+      "summary": "Interface Mission Control pour visualiser et contrôler tous les équipements d'une salle.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "frontend", "path": "src/views/SalleView.vue", "anchor": "Room cockpit with device panels"},
+        {"type": "component", "path": "src/components/salle/SalleCockpit.vue", "anchor": "Main cockpit component"},
+        {"type": "component", "path": "src/components/salle/SalleStatsBar.vue", "anchor": "Room statistics bar"}
+      ]
+    },
+    {
+      "id": "cap.dashboard.widgets",
+      "title": "Dashboard personnalisable",
+      "pillar": "pillar.observability",
+      "summary": "Widgets drag & drop pour créer des vues personnalisées avec métriques, graphiques et alertes.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "frontend", "path": "src/views/MonitoringView.vue", "anchor": "Customizable widget grid"},
+        {"type": "component", "path": "src/components/widgets/BaseWidget.vue", "anchor": "Base widget with drag/drop"},
+        {"type": "component", "path": "src/components/widgets/WidgetLineChart.vue", "anchor": "Line chart widget"},
+        {"type": "component", "path": "src/components/widgets/WidgetAlerts.vue", "anchor": "Alerts widget"},
+        {"type": "store", "path": "src/stores/dashboardStore.js", "anchor": "Widget layout management"}
+      ]
+    },
+    {
+      "id": "cap.control.pjlink",
+      "title": "Contrôle projecteurs PJLink",
+      "pillar": "pillar.action",
+      "summary": "Allumage, extinction, changement de source et contrôle AV-Mute des projecteurs.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/pjlinkclient/client.go", "anchor": "GetPowerStatus, SetPower, SetInputSource, SetAVMute"},
+        {"type": "route", "path": "main.go", "anchor": "/api/device-action/pjlink/power"},
+        {"type": "route", "path": "main.go", "anchor": "/api/device-action/pjlink/source"},
+        {"type": "route", "path": "main.go", "anchor": "/api/device-action/pjlink/av-mute"},
+        {"type": "config", "path": "config.env.example:155", "anchor": "PJLINK_PASSWORD"}
+      ]
+    },
+    {
+      "id": "cap.control.sennheiser",
+      "title": "Contrôle microphones Sennheiser",
+      "pillar": "pillar.action",
+      "summary": "Mute/unmute, redémarrage et diagnostic des microphones TCC2, TCCM, TC Bar et SpeechLine.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/sennheiser/service.go", "anchor": "SennheiserService"},
+        {"type": "code", "path": "internal/sennheiser/service_v2.go", "anchor": "SennheiserServiceV2 (TCCM, TC Bar)"},
+        {"type": "handlers", "path": "internal/sennheiser/handlers/http_handlers.go", "anchor": "Mute, Restart handlers"},
+        {"type": "route", "path": "internal/sennheiser/handlers/routes.go", "anchor": "/api/sennheiser/*"},
+        {"type": "component", "path": "src/components/salle/SalleTCC2Control.vue", "anchor": "TCC2 control panel"}
+      ]
+    },
+    {
+      "id": "cap.control.qsys",
+      "title": "Monitoring Q-SYS",
+      "pillar": "pillar.observability",
+      "summary": "Surveillance des cores Q-SYS via protocole QRC, inventaire et visualisation UCI.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/qsys/client.go", "anchor": "Client struct, QRC protocol"},
+        {"type": "code", "path": "internal/qsys/handler.go", "anchor": "Handler, GetDanteInfo"},
+        {"type": "frontend", "path": "src/views/QsysEnvironment/QsysDashboard.vue", "anchor": "Q-SYS dashboard"},
+        {"type": "frontend", "path": "src/views/QsysEnvironment/QsysUciViewer.vue", "anchor": "UCI viewer"},
+        {"type": "route", "path": "main.go", "anchor": "/api/qsys/*"}
+      ]
+    },
+    {
+      "id": "cap.control.ddm",
+      "title": "Dante Domain Manager",
+      "pillar": "pillar.observability",
+      "summary": "Monitoring du réseau audio Dante avec visualisation des domaines, alertes et enrichissement.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/ddm/client.go", "anchor": "Client struct, GraphQL"},
+        {"type": "code", "path": "internal/ddm/handler.go", "anchor": "GetDomainsHandler, GetDevicesHandler"},
+        {"type": "code", "path": "internal/ddm/monitor.go", "anchor": "Background monitoring"},
+        {"type": "frontend", "path": "src/views/DDMView.vue", "anchor": "DDM dashboard"},
+        {"type": "route", "path": "main.go", "anchor": "/api/ddm/*"}
+      ]
+    },
+    {
+      "id": "cap.ticketing.podio",
+      "title": "Intégration Podio",
+      "pillar": "pillar.action",
+      "summary": "Création et suivi des bons de travail (BT) via l'API Podio avec chatbot intégré.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "handlers", "path": "podio_handlers.go", "anchor": "podioSallesHandlerNew, podioBonsTravailHandlerNew"},
+        {"type": "handlers", "path": "bt-podio.go", "anchor": "BT ticket management"},
+        {"type": "frontend", "path": "src/views/PodioView.vue", "anchor": "Podio chatbot interface"},
+        {"type": "config", "path": "config.env.example:168-187", "anchor": "PODIO_* configuration"},
+        {"type": "route", "path": "main.go", "anchor": "/api/podio/*"}
+      ]
+    },
+    {
+      "id": "cap.booking.libcal",
+      "title": "Intégration LibCal",
+      "pillar": "pillar.intelligence",
+      "summary": "Consultation des réservations LibCal pour contextualiser les interventions.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/libcal/client.go", "anchor": "Client struct, OAuth2"},
+        {"type": "code", "path": "internal/libcal/handler.go", "anchor": "GetBookingsHandler"},
+        {"type": "frontend", "path": "src/views/LibCalView.vue", "anchor": "LibCal booking view"},
+        {"type": "config", "path": "config.env.example:238-253", "anchor": "LIBCAL_* configuration"},
+        {"type": "route", "path": "main.go", "anchor": "/api/libcal/*"}
+      ]
+    },
+    {
+      "id": "cap.booking.srs",
+      "title": "Intégration SRS Oracle",
+      "pillar": "pillar.intelligence",
+      "summary": "Consultation du Système de Réservation de Salles UQAM (Oracle OMNIP).",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/srs/client.go", "anchor": "Client struct, Oracle DB"},
+        {"type": "code", "path": "internal/srs/handler.go", "anchor": "GetReservationsHandler"},
+        {"type": "frontend", "path": "src/views/SRSView.vue", "anchor": "SRS calendar view"},
+        {"type": "config", "path": "config.env.example:210-229", "anchor": "SRS_ORACLE_* configuration"},
+        {"type": "route", "path": "main.go", "anchor": "/api/srs/*"}
+      ]
+    },
+    {
+      "id": "cap.network.meraki",
+      "title": "Monitoring Cisco Meraki",
+      "pillar": "pillar.observability",
+      "summary": "Surveillance des équipements réseau Meraki avec statuts et contrôle de reboot.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/meraki/client.go", "anchor": "Client struct, Dashboard API v1"},
+        {"type": "handlers", "path": "meraki_handlers.go", "anchor": "merakiHealthHandler, merakiSummaryHandler"},
+        {"type": "frontend", "path": "src/views/MerakiView.vue", "anchor": "Meraki dashboard"},
+        {"type": "config", "path": "config.env.example:200-201", "anchor": "MERAKI_API_KEY"},
+        {"type": "route", "path": "main.go", "anchor": "/api/meraki/*"}
+      ]
+    },
+    {
+      "id": "cap.auth.rbac",
+      "title": "Contrôle d'accès RBAC",
+      "pillar": "pillar.intelligence",
+      "summary": "Gestion des rôles (Super Admin, Admin, Technicien, Observateur) avec permissions granulaires.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "store", "path": "src/stores/auth.js", "anchor": "Role management, permissions"},
+        {"type": "code", "path": "rbac_permissions.go", "anchor": "RBAC permission system"},
+        {"type": "frontend", "path": "src/views/admin/AdminDevicesView.vue", "anchor": "Admin device management"},
+        {"type": "component", "path": "src/components/admin/PermissionsModal.vue", "anchor": "Permissions UI"}
+      ]
+    },
+    {
+      "id": "cap.auth.oidc",
+      "title": "SSO Keycloak/Azure",
+      "pillar": "pillar.intelligence",
+      "summary": "Authentification unique via Keycloak avec support Azure AD pour les comptes UQAM.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/oidc/client.go", "anchor": "OIDCClient struct"},
+        {"type": "code", "path": "internal/oidc/handlers.go", "anchor": "Auth callback handlers"},
+        {"type": "config", "path": "config.env.example:108-139", "anchor": "OIDC_* configuration"},
+        {"type": "route", "path": "main.go", "anchor": "/auth/callback, /auth/logout"}
+      ]
+    },
+    {
+      "id": "cap.diagnostic.roombrain",
+      "title": "Room Brain - Diagnostic IA",
+      "pillar": "pillar.intelligence",
+      "summary": "Analyse automatisée de l'état des salles avec détection de patterns et recommandations.",
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/roombrain/brain.go", "anchor": "Brain engine"},
+        {"type": "code", "path": "internal/roombrain/patterns/evaluator.go", "anchor": "Pattern evaluation"},
+        {"type": "code", "path": "internal/roombrain/snapshot/snapshot.go", "anchor": "Room snapshot"},
+        {"type": "component", "path": "src/components/salle/RoomBrainPanel.vue", "anchor": "Room brain UI"}
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int.pjlink",
+      "name": "PJLink",
+      "category": "Équipements",
+      "purpose": "Protocole standard pour contrôle de projecteurs (power, source, mute, lamp hours)",
+      "protocol": "TCP",
+      "port": 4352,
+      "status": "implemented",
+      "devices": ["Panasonic", "Epson", "NEC", "Christie"],
+      "evidence": [
+        {"type": "code", "path": "internal/pjlinkclient/client.go", "anchor": "GetPowerStatus, SetPower"},
+        {"type": "code", "path": "internal/protocols/pjlink/client.go", "anchor": "Alternative client"},
+        {"type": "route", "path": "main.go", "anchor": "/api/pjlink/*"},
+        {"type": "config", "path": "config.env.example:155", "anchor": "PJLINK_PASSWORD=panasonic"}
+      ]
+    },
+    {
+      "id": "int.sennheiser.sscv1",
+      "name": "Sennheiser SSCv1",
+      "category": "Équipements",
+      "purpose": "Protocole de contrôle pour microphones TCC2 (mute, status, reboot)",
+      "protocol": "TCP",
+      "port": 45,
+      "status": "implemented",
+      "devices": ["TeamConnect Ceiling 2 (TCC2)"],
+      "evidence": [
+        {"type": "code", "path": "internal/sennheiserclient/", "anchor": "SSCv1 client"},
+        {"type": "code", "path": "internal/protocols/sennheiser/client.go", "anchor": "Client struct"},
+        {"type": "handlers", "path": "internal/sennheiser/handlers/http_handlers.go", "anchor": "TCC2 handlers"},
+        {"type": "component", "path": "src/components/device_details/sennheiser/TCC2Details.vue", "anchor": "TCC2 UI"}
+      ]
+    },
+    {
+      "id": "int.sennheiser.sscv2",
+      "name": "Sennheiser SSCv2",
+      "category": "Équipements",
+      "purpose": "Protocole HTTPS pour microphones TCCM, TC Bar et SpeechLine",
+      "protocol": "HTTPS",
+      "port": 443,
+      "status": "implemented",
+      "devices": ["TeamConnect Ceiling Medium (TCCM)", "TC Bar", "SpeechLine Multi-Channel Receiver"],
+      "evidence": [
+        {"type": "code", "path": "internal/sennheiser/sscv2/", "anchor": "SSCv2 client"},
+        {"type": "handlers", "path": "internal/sennheiser/handlers/tcbar_handlers.go", "anchor": "TC Bar handlers"},
+        {"type": "handlers", "path": "internal/sennheiser/handlers/tccm_handlers.go", "anchor": "TCCM handlers"},
+        {"type": "component", "path": "src/components/device_details/sennheiser/TCBarDetails.vue", "anchor": "TC Bar UI"},
+        {"type": "component", "path": "src/components/device_details/sennheiser/SpeechLineDetails.vue", "anchor": "SpeechLine UI"}
+      ]
+    },
+    {
+      "id": "int.qsys",
+      "name": "Q-SYS QRC",
+      "category": "Équipements",
+      "purpose": "Protocole de contrôle Q-SYS pour monitoring des cores audio et DSP",
+      "protocol": "TCP",
+      "port": 1710,
+      "status": "implemented",
+      "devices": ["Q-SYS Core 110f", "Core 510i", "Core 5200"],
+      "evidence": [
+        {"type": "code", "path": "internal/qsys/client.go", "anchor": "Client struct, QRC protocol"},
+        {"type": "code", "path": "internal/qsys/manager.go", "anchor": "Manager, multi-core"},
+        {"type": "handlers", "path": "internal/qsys/handler.go", "anchor": "Handler"},
+        {"type": "frontend", "path": "src/views/QsysEnvironment/QsysDashboard.vue", "anchor": "Dashboard"},
+        {"type": "route", "path": "main.go", "anchor": "/api/qsys/*"}
+      ]
+    },
+    {
+      "id": "int.ddm",
+      "name": "Dante Domain Manager",
+      "category": "Réseau",
+      "purpose": "Gestion centralisée du réseau audio Dante via API GraphQL",
+      "protocol": "HTTPS/GraphQL",
+      "port": 443,
+      "status": "implemented",
+      "devices": ["Dante-enabled devices across network"],
+      "evidence": [
+        {"type": "code", "path": "internal/ddm/client.go", "anchor": "GraphQL client"},
+        {"type": "code", "path": "internal/ddm/monitor.go", "anchor": "Background monitor"},
+        {"type": "code", "path": "internal/ddm/enrichment.go", "anchor": "Device enrichment"},
+        {"type": "frontend", "path": "src/views/DDMView.vue", "anchor": "DDM dashboard"},
+        {"type": "route", "path": "main.go", "anchor": "/api/ddm/*"}
+      ]
+    },
+    {
+      "id": "int.mersive",
+      "name": "Mersive Solstice",
+      "category": "Équipements",
+      "purpose": "Contrôle des pods de présentation sans fil Mersive Solstice",
+      "protocol": "HTTPS/REST",
+      "port": 443,
+      "status": "implemented",
+      "devices": ["Solstice Pod"],
+      "evidence": [
+        {"type": "code", "path": "internal/mersiveclient/", "anchor": "Mersive client"},
+        {"type": "component", "path": "src/components/device_details/MersiveSpecificDetails.vue", "anchor": "Mersive UI"},
+        {"type": "component", "path": "src/components/salle/SalleMersiveControl.vue", "anchor": "Mersive control"}
+      ]
+    },
+    {
+      "id": "int.crestron",
+      "name": "Crestron SSH",
+      "category": "Équipements",
+      "purpose": "Contrôle des processeurs Crestron via SSH",
+      "protocol": "SSH",
+      "port": 22,
+      "status": "implemented",
+      "devices": ["Crestron control processors"],
+      "evidence": [
+        {"type": "code", "path": "internal/sshcontrol/", "anchor": "SSH control client"},
+        {"type": "component", "path": "src/components/device_details/CrestronSpecificDetails.vue", "anchor": "Crestron UI"},
+        {"type": "component", "path": "src/components/salle/SalleCrestronControl.vue", "anchor": "Crestron control"}
+      ]
+    },
+    {
+      "id": "int.podio",
+      "name": "Podio",
+      "category": "Services",
+      "purpose": "Gestion des bons de travail (BT) et informations sur les salles",
+      "protocol": "HTTPS/REST",
+      "port": 443,
+      "status": "implemented",
+      "evidence": [
+        {"type": "handlers", "path": "podio_handlers.go", "anchor": "Podio API handlers"},
+        {"type": "handlers", "path": "bt-podio.go", "anchor": "BT ticket creation"},
+        {"type": "frontend", "path": "src/views/PodioView.vue", "anchor": "Podio chatbot"},
+        {"type": "config", "path": "config.env.example:168-187", "anchor": "PODIO_* vars"},
+        {"type": "composable", "path": "src/composables/usePodio.js", "anchor": "Podio composable"}
+      ]
+    },
+    {
+      "id": "int.libcal",
+      "name": "LibCal (Springshare)",
+      "category": "Services",
+      "purpose": "Intégration avec le système de réservation de salles LibCal",
+      "protocol": "HTTPS/REST",
+      "port": 443,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/libcal/client.go", "anchor": "OAuth2 client"},
+        {"type": "code", "path": "internal/libcal/handler.go", "anchor": "Handlers"},
+        {"type": "frontend", "path": "src/views/LibCalView.vue", "anchor": "LibCal view"},
+        {"type": "config", "path": "config.env.example:238-253", "anchor": "LIBCAL_* vars"}
+      ]
+    },
+    {
+      "id": "int.srs",
+      "name": "SRS (UQAM)",
+      "category": "Services",
+      "purpose": "Système de Réservation de Salles UQAM (Oracle OMNIP)",
+      "protocol": "Oracle DB",
+      "port": 1521,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/srs/client.go", "anchor": "Oracle DB client (go-ora)"},
+        {"type": "code", "path": "internal/srs/handler.go", "anchor": "Handlers"},
+        {"type": "frontend", "path": "src/views/SRSView.vue", "anchor": "SRS view"},
+        {"type": "config", "path": "config.env.example:210-229", "anchor": "SRS_ORACLE_* vars"}
+      ]
+    },
+    {
+      "id": "int.meraki",
+      "name": "Cisco Meraki",
+      "category": "Réseau",
+      "purpose": "Monitoring des équipements réseau Meraki Dashboard API",
+      "protocol": "HTTPS/REST",
+      "port": 443,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/meraki/client.go", "anchor": "Dashboard API v1"},
+        {"type": "handlers", "path": "meraki_handlers.go", "anchor": "Meraki handlers"},
+        {"type": "frontend", "path": "src/views/MerakiView.vue", "anchor": "Meraki view"},
+        {"type": "config", "path": "config.env.example:200-201", "anchor": "MERAKI_API_KEY"}
+      ]
+    },
+    {
+      "id": "int.prometheus",
+      "name": "Prometheus",
+      "category": "Infrastructure",
+      "purpose": "Collecte et stockage de métriques pour monitoring et alerting",
+      "protocol": "HTTP",
+      "port": 9091,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/monitoring/metrics.go", "anchor": "MetricsManager"},
+        {"type": "route", "path": "main.go:3491", "anchor": "/metrics endpoint"},
+        {"type": "config", "path": "config.env.example:264", "anchor": "INFRA_PROMETHEUS_URL"},
+        {"type": "dashboard", "path": "grafana/dashboards/av_equipment.json", "anchor": "Grafana dashboard"}
+      ]
+    },
+    {
+      "id": "int.redis",
+      "name": "Redis",
+      "category": "Infrastructure",
+      "purpose": "Cache de données et gestion des sessions",
+      "protocol": "Redis",
+      "port": 6379,
+      "status": "implemented",
+      "evidence": [
+        {"type": "docker", "path": "docker-compose.production.yml:101-120", "anchor": "Redis service"},
+        {"type": "config", "path": "config.env.example:43-45", "anchor": "REDIS_ADDR, REDIS_PASSWORD"}
+      ]
+    },
+    {
+      "id": "int.keycloak",
+      "name": "Keycloak OIDC",
+      "category": "Sécurité",
+      "purpose": "Authentification SSO via OpenID Connect avec support Azure AD",
+      "protocol": "HTTPS/OIDC",
+      "port": 443,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/oidc/client.go", "anchor": "OIDCClient"},
+        {"type": "code", "path": "internal/oidc/handlers.go", "anchor": "Auth handlers"},
+        {"type": "config", "path": "config.env.example:108-139", "anchor": "OIDC_* vars"},
+        {"type": "route", "path": "main.go", "anchor": "/auth/*"}
+      ]
+    },
+    {
+      "id": "int.neondb",
+      "name": "NeonDB",
+      "category": "Infrastructure",
+      "purpose": "Base de données PostgreSQL serverless dans le cloud",
+      "protocol": "PostgreSQL",
+      "port": 5432,
+      "status": "implemented",
+      "evidence": [
+        {"type": "code", "path": "internal/db/postgres_executor.go", "anchor": "PostgreSQL executor"},
+        {"type": "config", "path": "config.env.example:16-28", "anchor": "DATABASE_URL"},
+        {"type": "migrations", "path": "database/migrations/", "anchor": "60+ migration files"}
+      ]
+    },
+    {
+      "id": "int.deepfreeze",
+      "name": "DeepFreeze",
+      "category": "Services",
+      "purpose": "Gestion des postes PC avec support reboot et status",
+      "protocol": "REST",
+      "port": 443,
+      "status": "implemented",
+      "evidence": [
+        {"type": "frontend", "path": "src/views/DeepFreezeView.vue", "anchor": "DeepFreeze view"},
+        {"type": "store", "path": "src/stores/deepfreeze.js", "anchor": "DeepFreeze store"},
+        {"type": "handlers", "path": "deepfreeze_import_handler.go", "anchor": "Import handler"}
+      ]
+    }
+  ],
+  "architecture": {
+    "diagram_type": "flow",
+    "description": "Architecture distribuée avec backend Go, frontend Vue, et multiples intégrations d'équipements.",
+    "layers": [
+      {
+        "name": "Équipements AV",
+        "components": ["Projecteurs (PJLink)", "Microphones (SSC)", "Audio (Q-SYS)", "Réseau (Dante DDM)"]
+      },
+      {
+        "name": "Backend Go",
+        "components": ["API REST", "Protocoles natifs", "Cache Redis", "Métriques Prometheus"]
+      },
+      {
+        "name": "Frontend Vue",
+        "components": ["Dashboard", "Cockpit Salle", "Widgets", "Admin"]
+      },
+      {
+        "name": "Services externes",
+        "components": ["Podio (tickets)", "LibCal/SRS (réservations)", "Keycloak (auth)"]
+      }
+    ],
+    "data_flows": [
+      {"from": "Équipements AV", "to": "Backend Go", "protocol": "PJLink/SSC/QRC/REST", "description": "Polling et contrôle"},
+      {"from": "Backend Go", "to": "Prometheus", "protocol": "HTTP", "description": "Export métriques"},
+      {"from": "Backend Go", "to": "Redis", "protocol": "Redis", "description": "Cache et sessions"},
+      {"from": "Backend Go", "to": "NeonDB", "protocol": "PostgreSQL", "description": "Persistance"},
+      {"from": "Frontend Vue", "to": "Backend Go", "protocol": "REST/SSE", "description": "API et temps réel"},
+      {"from": "Backend Go", "to": "Podio", "protocol": "REST", "description": "Tickets BT"},
+      {"from": "Backend Go", "to": "LibCal/SRS", "protocol": "REST/Oracle", "description": "Réservations"}
+    ]
+  },
+  "demo_story": {
+    "title": "Du signal à l'action",
+    "subtitle": "Comment SAVQonnect transforme un incident en solution",
+    "steps": [
+      {
+        "id": "step.detect",
+        "phase": "Détecter",
+        "icon": "eye",
+        "title": "Anomalie détectée",
+        "description": "Le monitoring temps réel détecte qu'un microphone TCC2 en salle A-1825 ne répond plus.",
+        "evidence": [
+          {"type": "frontend", "path": "src/views/DashboardView.vue", "anchor": "Real-time device grid"},
+          {"type": "store", "path": "src/stores/devicesStore.js", "anchor": "Status tracking"}
+        ]
+      },
+      {
+        "id": "step.diagnose",
+        "phase": "Diagnostiquer",
+        "icon": "brain",
+        "title": "Contexte enrichi",
+        "description": "Room Brain analyse la situation: aucune réservation active (SRS), dernière intervention il y a 3 mois (Podio), pattern de déconnexion similaire dans 2 autres salles.",
+        "evidence": [
+          {"type": "code", "path": "internal/roombrain/brain.go", "anchor": "Brain analysis"},
+          {"type": "code", "path": "internal/srs/client.go", "anchor": "SRS integration"},
+          {"type": "handlers", "path": "podio_handlers.go", "anchor": "Podio history"}
+        ]
+      },
+      {
+        "id": "step.act",
+        "phase": "Agir",
+        "icon": "lightning",
+        "title": "Résolution ou escalade",
+        "description": "Le technicien tente un redémarrage à distance via SSC. Si échec, un BT est créé automatiquement dans Podio avec tout le contexte.",
+        "evidence": [
+          {"type": "handlers", "path": "internal/sennheiser/handlers/http_handlers.go", "anchor": "Restart handler"},
+          {"type": "handlers", "path": "bt-podio.go", "anchor": "BT creation"},
+          {"type": "component", "path": "src/components/modals/CreateBTModal.vue", "anchor": "BT modal"}
+        ]
+      }
+    ]
+  },
+  "stats": {
+    "devices_monitored": "2000+",
+    "protocols_supported": 8,
+    "integrations_active": 15,
+    "buildings_covered": "Tous les pavillons UQAM",
+    "response_time": "< 5 secondes",
+    "uptime_target": "99.9%"
+  },
+  "future": [
+    {
+      "id": "future.copilot.advanced",
+      "title": "Copilot IA avancé",
+      "description": "Assistant conversationnel avec RAG pour diagnostics complexes et suggestions proactives.",
+      "status": "in_progress",
+      "timeline": "Q1 2026",
+      "evidence_partial": [
+        {"type": "code", "path": "internal/copilot/", "anchor": "Copilot package (in development)"},
+        {"type": "frontend", "path": "src/views/CopilotView.vue", "anchor": "Copilot view"},
+        {"type": "composable", "path": "src/composables/useCopilot.js", "anchor": "Copilot composable"}
+      ]
+    },
+    {
+      "id": "future.predictive",
+      "title": "Maintenance prédictive",
+      "description": "Prédiction des pannes basée sur l'historique et les patterns d'utilisation.",
+      "status": "planned",
+      "timeline": "Q3 2026"
+    },
+    {
+      "id": "future.mobile",
+      "title": "Application mobile",
+      "description": "Application native iOS/Android pour les techniciens terrain.",
+      "status": "planned",
+      "timeline": "2027"
+    }
+  ],
+  "terminology": {
+    "room_format": "PAV-ROOM (ex: A-1825, DS-2505, C-R250, PK-M405)",
+    "pavilion_codes": ["A", "C", "DS", "J", "PK", "SH", "SB", "N", "V", "R", "D", "K"],
+    "device_prefixes": {
+      "MIC": "Microphone",
+      "PROJ": "Projecteur",
+      "ECRAN": "Écran motorisé",
+      "TCC2": "Sennheiser TCC2",
+      "TCCM": "Sennheiser TCCM",
+      "TCBAR": "Sennheiser TC Bar",
+      "SL": "SpeechLine"
+    },
+    "bt": "Bon de Travail (ticket de maintenance)"
+  }
+}
