@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SAVQonnect - Plateforme de monitoring audiovisuel en temps réel pour l'UQAM">
+  <title>Présentation de la solution SAVQonnect propulsée par le projet Amalgame</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">
+      <span class="nav-brand-logo"><span class="nav-logo">SAV</span><span class="nav-logo-accent">Qonnect</span></span>
+      <span class="nav-brand-tagline">propulsé par <strong>Amalgame</strong></span>
+    </div>
+    <div class="nav-links">
+      <a href="#amalgame" class="nav-link">Amalgame</a>
+      <a href="#hero" class="nav-link">SAVQonnect</a>
+      <a href="#pillars" class="nav-link">Fonctionnalités</a>
+      <a href="#integrations" class="nav-link">Intégrations</a>
+      <a href="#demo-story" class="nav-link">Démo</a>
+      <a href="#reality-check" class="nav-link">Roadmap</a>
+    </div>
+  </nav>
+
+  <main id="app">
+    <!-- Amalgame Section (FIRST) - Glassmorphism Design -->
+    <section id="amalgame" class="section amalgame-section amalgame-hero">
+      <div class="amalgame-bg"></div>
+      
+      <div class="amalgame-container">
+        <div class="amalgame-headline">
+          <div class="amalgame-headline-icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="14" stroke="currentColor" stroke-width="2" fill="none" opacity="0.9"/>
+              <circle cx="28" cy="28" r="6" fill="currentColor" opacity="0.6"/>
+              <circle cx="48" cy="20" r="4" fill="currentColor" opacity="0.4"/>
+              <circle cx="52" cy="36" r="4" fill="currentColor" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="amalgame-wordmark">
+            <span class="amalgame-letter-block"><span class="amalgame-letter">A</span><span class="amalgame-letter-sub color-1">Application de</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">M</span><span class="amalgame-letter-sub color-2">Monitoring</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">A</span><span class="amalgame-letter-sub color-3">Audiovisuel avec</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">L</span><span class="amalgame-letter-sub color-4">Liens</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">G</span><span class="amalgame-letter-sub color-5">Groupés</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">A</span><span class="amalgame-letter-sub color-1">Adaptable à de</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">M</span><span class="amalgame-letter-sub color-2">Multiples</span></span>
+            <span class="amalgame-letter-block"><span class="amalgame-letter">E</span><span class="amalgame-letter-sub color-3">Environnements</span></span>
+          </div>
+          <img src="Amalgame-No-Bg.png" alt="Amalgame" class="amalgame-logo-img">
+        </div>
+        <div class="amalgame-intro-row">
+          <p class="lead">
+            Projet de structuration des plateformes de gestion d'équipements audiovisuels en réseau :
+            une approche unifiée pour centraliser l'information, clarifier les incidents et soutenir un parc AV en expansion.
+          </p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Problèmes</h3>
+            <ul>
+              <li>Gestion éparpillée sur de nombreuses plateformes</li>
+              <li>Repérage des incidents peu clair</li>
+              <li>Parc réseau en expansion</li>
+              <li>Assistance technique compliquée</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Objectifs</h3>
+            <ul>
+              <li>Accroître l'efficacité des équipes de soutien</li>
+              <li>Normaliser le déploiement des appareils audiovisuels</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Solution</h3>
+            <ul>
+              <li>Actualiser et structurer les applications actuellement utilisées</li>
+              <li>Organiser des processus de travail pour les futures implémentations</li>
+              <li>Développer une application qui rassemble alertes et informations multi-plateformes</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Portée</h3>
+            <p class="small">
+              SSO, certificats TLS, déploiement VM, architecture & déploiement DB, plan réseau,
+              mise à jour d'applications existantes, révision de code source.
+            </p>
+          </div>
+        </div>
+
+        <p class="conclusion">
+          Pour offrir une meilleure expérience aux usagers, éviter les pannes et accélérer les réponses,
+          il est essentiel d'organiser nos outils et d'adopter une plateforme unique de gestion des équipements.
+        </p>
+
+        <!-- Footer: Relationship Diagram -->
+        <footer class="amalgame-footer">
+          <div class="relationship-diagram">
+            <div class="rel-node rel-amalgame">
+              <span class="rel-label">AMALGAME</span>
+              <span class="rel-desc">Cadre • Normes • Alignement</span>
+            </div>
+            <div class="rel-arrow">
+              <span class="rel-arrow-text">matérialise</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </div>
+            <div class="rel-node rel-savqonnect">
+              <span class="rel-label">SAVQONNECT</span>
+              <span class="rel-desc">Cockpit • Monitoring • Actions</span>
+            </div>
+          </div>
+          
+          <!-- Scroll indicator (inside footer to avoid overlap) -->
+          <div class="amalgame-scroll-hint">
+            <span>Découvrir SAVQonnect</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+          </div>
+        </footer>
+      </div>
+    </section>
+
+    <!-- Hero Section (SAVQonnect) -->
+    <section id="hero" class="section hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <div class="hero-badge">UQAM - Service de l'audiovisuel</div>
+        <h1 class="hero-title">
+          <span class="hero-logo">SAV</span><span class="hero-logo-accent">Qonnect</span>
+        </h1>
+        <div class="hero-logo-image">
+          <img src="savqonnect-logo.png" alt="SAVQonnect Logo" class="savqonnect-logo-img">
+        </div>
+        <p class="hero-subtitle" id="hero-pitch"></p>
+        <div class="hero-bullets" id="hero-bullets"></div>
+        <div class="hero-stats" id="hero-stats"></div>
+      </div>
+      <div class="hero-scroll">
+        <span>Explorer</span>
+        <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Problem Space -->
+    <section id="problem" class="section">
+      <div class="container">
+        <h2 class="section-title">Le défi</h2>
+        <p class="section-subtitle">Gérer 2000+ équipements AV à travers un campus universitaire</p>
+        <div class="pain-points" id="pain-points"></div>
+      </div>
+    </section>
+
+    <!-- Pillars Section -->
+    <section id="pillars" class="section">
+      <div class="container">
+        <h2 class="section-title">Trois piliers</h2>
+        <p class="section-subtitle">Une approche unifiée du monitoring audiovisuel</p>
+        <div class="pillars-grid" id="pillars-grid"></div>
+      </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section id="capabilities" class="section">
+      <div class="container">
+        <h2 class="section-title">Capacités</h2>
+        <p class="section-subtitle">Fonctionnalités implémentées et opérationnelles</p>
+        <div class="capabilities-grid" id="capabilities-grid"></div>
+      </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section id="integrations" class="section">
+      <div class="container">
+        <h2 class="section-title">Écosystème d'intégrations</h2>
+        <p class="section-subtitle">Connexion native avec les protocoles et services existants</p>
+        <div class="integrations-filters" id="integrations-filters"></div>
+        <div class="integrations-grid" id="integrations-grid"></div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section">
+      <div class="container">
+        <h2 class="section-title">Architecture</h2>
+        <p class="section-subtitle">Flux de données et couches techniques</p>
+        <div class="architecture-diagram" id="architecture-diagram"></div>
+      </div>
+    </section>
+
+    <!-- Demo Story Section -->
+    <section id="demo-story" class="section">
+      <div class="container">
+        <h2 class="section-title" id="demo-title">Du signal à l'action</h2>
+        <p class="section-subtitle" id="demo-subtitle"></p>
+        <div class="demo-timeline" id="demo-timeline"></div>
+      </div>
+    </section>
+
+    <!-- Reality Check Section -->
+    <section id="reality-check" class="section">
+      <div class="container">
+        <h2 class="section-title">État actuel & Roadmap</h2>
+        <p class="section-subtitle">Transparence sur ce qui est implémenté vs planifié</p>
+        <div class="reality-grid">
+          <div class="reality-column implemented">
+            <h3 class="reality-header">
+              <svg class="reality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              Implémenté
+            </h3>
+            <div class="reality-list" id="implemented-list"></div>
+          </div>
+          <div class="reality-column future">
+            <h3 class="reality-header">
+              <svg class="reality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Planifié
+            </h3>
+            <div class="reality-list" id="future-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Close Section -->
+    <section id="close" class="section">
+      <div class="container">
+        <h2 class="section-title">Prêt pour la démo?</h2>
+        <p class="section-subtitle">Ce que nous pouvons valider ensemble</p>
+        <div class="demo-checklist" id="demo-checklist">
+          <div class="checklist-item">
+            <svg class="checklist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span>Monitoring temps réel d'équipements</span>
+          </div>
+          <div class="checklist-item">
+            <svg class="checklist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span>Contrôle à distance (power, mute, source)</span>
+          </div>
+          <div class="checklist-item">
+            <svg class="checklist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span>Cockpit de salle avec tous les équipements</span>
+          </div>
+          <div class="checklist-item">
+            <svg class="checklist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span>Intégration Podio pour tickets BT</span>
+          </div>
+        </div>
+        <div class="cta-section">
+          <p class="cta-text">Version <span id="version-tag">6.1-BETA</span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">SAV</span><span class="footer-logo-accent">Qonnect</span>
+        <span class="footer-org">UQAM</span>
+      </div>
+      <div class="footer-meta">
+        <span>Données générées le: <span id="generated-at"></span></span>
+        <span class="footer-sep">•</span>
+        <span>Source: <a href="#" id="repo-link" class="footer-link">Repository</a></span>
+      </div>
+      <div class="footer-note">
+        Toutes les fonctionnalités présentées sont vérifiables dans le code source.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal for integration details -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <div class="modal-header">
+        <div class="modal-icon" id="modal-icon"></div>
+        <div class="modal-title-group">
+          <h3 class="modal-title" id="modal-title"></h3>
+          <span class="modal-category" id="modal-category"></span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="modal-purpose" id="modal-purpose"></p>
+        <div class="modal-details" id="modal-details"></div>
+        <div class="modal-evidence">
+          <h4 class="evidence-title">
+            <svg class="evidence-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Preuves dans le code
+          </h4>
+          <div class="evidence-list" id="modal-evidence"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
